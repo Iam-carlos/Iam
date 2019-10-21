@@ -1,0 +1,73 @@
+from sympy import *
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from pandas import DataFrame
+init_printing()
+
+y, x = symbols('y x') #define x e y como variáveis simbólicas.
+
+read = pd.read_csv('XYR completa corrigida.csv')
+read
+
+df_X = read['x']
+df_Y = read['y']
+
+plt.figure(1)
+plt.subplot(111)
+plt.plot(df_X, df_Y, 'bo')
+
+read = pd.read_csv('XYR completa linearizada.csv')
+read
+
+df_x = read['X']
+df_y = read['Y']
+
+def coef_estimado(x, y):  
+    n = np.size(x) 
+  
+    m_x, m_y = np.mean(x), np.mean(y) 
+  
+    SS_xy = np.sum(y*x) - n*m_y*m_x 
+    SS_xx = np.sum(x*x) - n*m_x*m_x 
+  
+    b_1 = SS_xy / SS_xx 
+    b_0 = m_y - b_1*m_x 
+  
+    return(b_0, b_1) 
+  
+def regressao_linear(x, y, b): 
+
+    plt.scatter(x, y, color = "m", 
+               marker = "o", s = 30) 
+  
+    y_pred = b[0] + b[1]*x 
+  
+    plt.plot(x, y_pred, color = "g") 
+   
+    plt.xlabel('X') 
+    plt.ylabel('Y') 
+  
+    plt.show() 
+  
+def main():  
+    x = df_x 
+    y = df_y
+  
+    b = coef_estimado(x, y) 
+    print("Coeficientes estimados:\nB = {} \nb = {}".format(b[0], b[1])) 
+  
+    regressao_linear(x, y, b) 
+  
+if __name__ == "__main__": 
+    main()
+    
+    def g(x): 
+    return -sqrt(-x**2 + 25)
+
+g(x)
+
+diff(g(x),x).subs(x,-4)
+
+np.arctan(-4/3)
+
